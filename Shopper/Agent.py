@@ -64,11 +64,24 @@ class Agent:
                                                                 command=self.Agent_Update_Delivery_selectbutton)
         self.__Agent_Update_Delivery_Back_button = Button(self.__Agent_Update_Delivery_frame, text="Back", 
                                                                 command=self.Agent_Update_Delivery_Back_button)
-        #~ self.__Agent_Update_Delivery
-        #~ self.__Agent_Update_Delivery
-        #~ self.__Agent_Update_Delivery
-        #~ self.__Agent_Update_Delivery
-       
+        
+        #Agent's Update Delivery times frame
+        self.__Agent_Update_Delivery_Times_frame = Frame(self.__root)
+        self.__Agent_Update_Delivery_Times_label = Label(self.__Agent_Update_Delivery_Times_frame, text="Select order to update")
+        self.__Agent_Update_Delivery_Times_scrollbar = Scrollbar(self.__Agent_Update_Delivery_Times_frame, orient=VERTICAL)
+        self.__Agent_Update_Delivery_Times_listbox = Listbox(self.__Agent_Update_Delivery_Times_frame, selectmode=EXTENDED, 
+                                                            yscrollcommand=self.__Agent_Update_Delivery_Times_scrollbar.set, height=h, width=w)
+        self.__Agent_Update_Delivery_Times_scrollbar.config(command=self.__Agent_Update_Delivery_Times_listbox.yview)
+        self.__Agent_Update_Delivery_Times_Pickup_label = Label(self.__Agent_Update_Delivery_Times_frame, text="Pickup Time")
+        self.__Agent_Update_Delivery_Times_Dropoff_label = Label(self.__Agent_Update_Delivery_Times_frame, text="Dropoff Time")
+        self.__Agent_Update_Delivery_Times_Pickup_entry = Entry(self.__Agent_Update_Delivery_Times_frame)
+        self.__Agent_Update_Delivery_Times_Dropoff_entry = Entry(self.__Agent_Update_Delivery_Times_frame)
+        self.__Agent_Update_Delivery_Times_Commit_button = Button(self.__Agent_Update_Delivery_Times_frame, text="Confirm Changes", 
+                                                                    command=self.Agent_Update_Delivery_Times_Commit_button)
+        self.__Agent_Update_Delivery_Times_Delete_button = Button(self.__Agent_Update_Delivery_Times_frame, text="DELETE ORDER", 
+                                                                    command=self.Agent_Update_Delivery_Times_Delete_button)
+        self.__Agent_Update_Delivery_Times_Done_button = Button(self.__Agent_Update_Delivery_Times_frame, text="Done", 
+                                                                    command=self.Agent_Update_Delivery_Times_Done_button)
         
         #Agent's Set Delivery page frame
         self.__Agent_Set_Delivery_frame = Frame(self.__root, height=720, width=960)
@@ -198,7 +211,18 @@ class Agent:
     def Agent_Update_Delivery_selectbutton(self):
         selection = self.__Agent_Update_Delivery_listbox.curselection() #Index from the deliveries returned
         self.__Agent_Update_Delivery_frame.grid_forget()
-        self.Agent_Work_page()
+        self.__Agent_Update_Delivery_Times_frame.grid(padx=10, pady=10)
+        self.__Agent_Update_Delivery_Times_label.grid(padx=10, pady=10)
+        self.__Agent_Update_Delivery_Times_Done_button.grid(row=0, column=1, pady=10, sticky=E)
+        self.__Agent_Update_Delivery_Times_scrollbar.grid(row=1, column=1, pady=10, sticky=N+S+W)
+        self.__Agent_Update_Delivery_Times_listbox.grid(row=1, column=0, pady=10, sticky=N+E+S+W)
+        self.__Agent_Update_Delivery_Times_Pickup_label.grid(row=2, column=0, padx=10, pady=10)
+        self.__Agent_Update_Delivery_Times_Dropoff_label.grid(row=3, column=0, padx=10, pady=10)
+        self.__Agent_Update_Delivery_Times_Pickup_entry.grid(row=2, column=1, padx=10, pady=10)
+        self.__Agent_Update_Delivery_Times_Dropoff_entry.grid(row=3, column=1, padx=10, pady=10)
+        self.__Agent_Update_Delivery_Times_Commit_button.grid(row=4, column=1, padx=10, pady=10)
+        self.__Agent_Update_Delivery_Times_Delete_button.grid(row=4, column=0, padx=10, pady=10)
+        
         
     def Agent_Update_Delivery_Back_button(self):
         self.__Agent_Update_Delivery_listbox.delete(0, END)
@@ -207,6 +231,21 @@ class Agent:
         self.__Agent_Update_Delivery_frame.grid_forget()
         self.Agent_Work_page()
     
+    def Agent_Update_Delivery_Times_Delete_button(self):
+        print("Hello")
+        
+    def Agent_Update_Delivery_Times_Commit_button(self):
+        print("Hello2")
+        
+    def Agent_Update_Delivery_Times_Done_button(self):
+        self.__Agent_Update_Delivery_Times_frame.grid_forget()
+        self.__Agent_Update_Delivery_Times_Pickup_entry.delete(0, END)
+        self.__Agent_Update_Delivery_Times_Dropoff_entry.delete(0, END)
+        self.__Agent_Update_Delivery_Times_listbox.delete(0, END)
+        #DELETE THE ORDERS THAT WERE ABLE TO BE EDITED (python list only)
+        self.Agent_Work_page()
+
+
     
         #Working!!!!!
         #Working!!!!!
