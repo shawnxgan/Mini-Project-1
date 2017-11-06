@@ -1,4 +1,5 @@
 import hashlib
+import os
 
 def fileToString(fileName):
     try:
@@ -6,11 +7,12 @@ def fileToString(fileName):
         fileContents = fp.read()
         fp.close()
         return fileContents
-    except IOError:
+    except IOError as e:
         print('"?" is an invalid file.', fileName)
+        print(e)
 
 def loadSchema(conn, cur, fileName):
-    schema = fileToString(fileName)
+    schema = fileToString(os.path.join(os.path.dirname(__file__), fileName))
     if schema:
         cur.executescript(schema)
         conn.commit()
