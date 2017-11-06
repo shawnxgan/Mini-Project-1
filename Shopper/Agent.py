@@ -2,6 +2,8 @@ from tkinter import *
 
 class Agent:
     def __init__(self, master, conn, cursor):
+        h=20
+        w=40
         self.__conn = conn
         self.__cursor = cursor
         self.__root = master
@@ -40,12 +42,39 @@ class Agent:
         self.__Agent_Add_Stock_label = Label(self.__Agent_Add_Stock_frame, text=" ")
         self.__Agent_Add_Stock_Back_button = Button(self.__Agent_Add_Stock_frame, text="Back", 
                                                                     command=self.Agent_Add_Stock_Back_button)
+        #WORKING!
+         #WORKING!
+          #WORKING!
+           #WORKING!
+            #WORKING!
+             #WORKING!
+              #WORKING!
+               #WORKING!
+                #WORKING!
+                
+        
+        #Agent's Update Delivery page frame
+        self.__Agent_Update_Delivery_frame = Frame(self.__root)
+        self.__Agent_Update_Delivery_label = Label(self.__Agent_Update_Delivery_frame, text="Select a Delivery to update")
+        self.__Agent_Update_Delivery_scrollbar = Scrollbar(self.__Agent_Update_Delivery_frame, orient=VERTICAL)
+        self.__Agent_Update_Delivery_listbox = Listbox(self.__Agent_Update_Delivery_frame, selectmode=SINGLE, 
+                                                    yscrollcommand=self.__Agent_Update_Delivery_scrollbar.set, height=h, width=w)
+        self.__Agent_Update_Delivery_scrollbar.config(command=self.__Agent_Update_Delivery_listbox.yview)
+        self.__Agent_Update_Delivery_selectbutton = Button(self.__Agent_Update_Delivery_frame, text="Edit selection", 
+                                                                command=self.Agent_Update_Delivery_selectbutton)
+        self.__Agent_Update_Delivery_Back_button = Button(self.__Agent_Update_Delivery_frame, text="Back", 
+                                                                command=self.Agent_Update_Delivery_Back_button)
+        #~ self.__Agent_Update_Delivery
+        #~ self.__Agent_Update_Delivery
+        #~ self.__Agent_Update_Delivery
+        #~ self.__Agent_Update_Delivery
+       
         
         #Agent's Set Delivery page frame
         self.__Agent_Set_Delivery_frame = Frame(self.__root, height=720, width=960)
         self.__Agent_Set_Delivery_scrollbar = Scrollbar(self.__Agent_Set_Delivery_frame , orient=VERTICAL)
         self.__Agent_Set_Delivery_listbox = Listbox(self.__Agent_Set_Delivery_frame, selectmode=EXTENDED, 
-                                                    yscrollcommand=self.__Agent_Set_Delivery_scrollbar.set)
+                                                    yscrollcommand=self.__Agent_Set_Delivery_scrollbar.set, height=h, width=w)
         self.__Agent_Set_Delivery_scrollbar.config(command=self.__Agent_Set_Delivery_listbox.yview)
         self.__Agent_Set_Delivery_button = Button(self.__Agent_Set_Delivery_frame, text="Set up Delivery Package",
                                                     command=self.Agent_Set_Delivery_button)
@@ -54,7 +83,7 @@ class Agent:
         self.__Agent_Set_Pickup_Time_frame = Frame(self.__root)
         self.__Agent_Set_Pickup_Time_scrollbar = Scrollbar(self.__Agent_Set_Pickup_Time_frame, orient=VERTICAL)
         self.__Agent_Set_Pickup_Time_listbox = Listbox(self.__Agent_Set_Pickup_Time_frame, selectmode=EXTENDED, 
-                                                        yscrollcommand=self.__Agent_Set_Pickup_Time_scrollbar.set)
+                                                        yscrollcommand=self.__Agent_Set_Pickup_Time_scrollbar.set, height=h, width=w)
         self.__Agent_Set_Pickup_Time_scrollbar.config(command=self.__Agent_Set_Pickup_Time_listbox.yview)
         self.__Agent_Set_Pickup_Time_entry = Entry(self.__Agent_Set_Pickup_Time_frame)
         self.__Agent_Set_Pickup_Time_button = Button(self.__Agent_Set_Pickup_Time_frame, text="Set Pickup Time", 
@@ -96,6 +125,7 @@ class Agent:
         self.__Agent_Add_Stock_button.grid(row=2, column=0, padx=50, pady=10)
     
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    
+#Start the agent's "ADD STOCK" option
     
     def Agent_Change_Price(self):
         if self.__Agent_Change_Price_check_var.get():
@@ -147,14 +177,58 @@ class Agent:
         self.__Agent_Add_Stock_label.grid(row=3, column=1, columnspan=2, pady=10)
         self.__Agent_Add_Stock_Back_button.grid(row=2, column=0, padx=10, pady=10)
 
+#END of Agent's ADD STOCK options
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#START Agent's UPDATE DELIVERY option
 
     def Agent_Update_Delivery(self):
         #~ print("todo2")
         self.__Agent_Work_frame.grid_forget()
-        self.Login_Choose()
+        self.__Agent_Update_Delivery_frame.grid(padx=10, pady=10)
+        self.__Agent_Update_Delivery_label.grid(row=0, column=0, padx=10, pady=10)
+        self.__Agent_Update_Delivery_scrollbar.grid(row=1, column=1, pady=10, sticky=N+S+W)
+        self.__Agent_Update_Delivery_listbox.grid(row=1, column=0, pady=10, sticky=N+E+S+W)
+        self.__Agent_Update_Delivery_selectbutton.grid(row=2, column=1, padx=10, pady=10)
+        self.__Agent_Update_Delivery_Back_button.grid(row=2, column=0, padx=10, pady=10, sticky=W)
+        #Fill self.__Agent_Update_Delivery_listbox with ALL deliveries 
+        #Use self.__Agent_Update_Delivery_listbox.insert(END, "STRING HERE")
+        #Use Delivery ID and make it a string
+        
+    def Agent_Update_Delivery_selectbutton(self):
+        selection = self.__Agent_Update_Delivery_listbox.curselection() #Index from the deliveries returned
+        self.__Agent_Update_Delivery_frame.grid_forget()
+        self.Agent_Work_page()
+        
+    def Agent_Update_Delivery_Back_button(self):
+        self.__Agent_Update_Delivery_listbox.delete(0, END)
+        #MUST ALSO REMOVE ALL THE DELIVERYIES RETURNED BY SQL (python's list only)
+        #WE DO NOT WANT MEMORY LEAKS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        self.__Agent_Update_Delivery_frame.grid_forget()
+        self.Agent_Work_page()
+    
+    
+        #Working!!!!!
+        #Working!!!!!
+        #Working!!!!!
+#Working!!!!!
+#Working!!!!!
+#Working!!!!!
+#Working!!!!!
+#Working!!!!!
+#Working!!!!!
+#Working!!!!!
+#Working!!!!!
+#Working!!!!!
+#Working!!!!!
+
+        
+        
+        
+#END Agent's UPDATE DELIVERY option
         
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#START Agent's CREATE DELIVERY option
     
     def Agent_Setup_Delivery(self):
         #~ print("todo3")
@@ -167,14 +241,15 @@ class Agent:
         self.__Agent_Set_Delivery_button.grid(row=1, column=0, columnspan=2, pady=10)
         #~ for i in range(0, 200):
             #~ self.__Agent_Set_Delivery_listbox.insert(END, "TEST"+str(i))
-            #Use the above comment to insert all orders in place of TEST, 
+            #Use the above comment to insert all orders in-place of TEST, 
             # HAS to be a string (descriptive? or just OID)
         
     def Agent_Set_Delivery_button(self):
         delivery_selections = self.__Agent_Set_Delivery_listbox.curselection()
-        #Delivery_selections is either a list of strings, or a list of int, use it to put
-        #data into the listbox based on which orders are in 'THIS' delivery
-        #Also need to generate Delivery ID
+        #Delivery_selections is either a list of STRINGS, or a list of INT, 
+        #MAKE SURE IT CAN HANDLE BOTH!
+        #use it to put data into the listbox based on which orders are 
+        #in 'THIS' delivery. Also need to generate Delivery ID
         self.__Agent_Set_Delivery_frame.grid_forget()
         self.__Agent_Set_Pickup_Time_frame.grid(padx=10, pady=10)
         self.__Agent_Set_Pickup_Time_listbox.grid(row=0, column=0, pady=10, sticky=N+S)
@@ -197,7 +272,10 @@ class Agent:
                 #Other items
                 
     def Agent_Confirm_Delivery_button(self):
-            self.__Agent_Set_Pickup_Time_frame.grid_forget()
-            #Set the rest of the list of OID pickup times to null
+        self.__Agent_Set_Pickup_Time_frame.grid_forget()
+        #Set the rest of the list of OID pickup times to null
+        
+        self.Agent_Work_page()
             
-            self.Agent_Work_page()
+#END Agent's CREATE DELIVERY option
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
