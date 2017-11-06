@@ -31,8 +31,13 @@ class Customer:
         
     def Customer_Sign_in_button(self):
         #~ print("Trying to sign in...")
-        #Put database lookup code here, as well as encryption
-        #self.__Customer_Password_entry.get()
+        access = False #SXGE
+        while access == False: #SXGE
+            if self.__SQLCommands.customerLogin(self.__Customer_Username_entry.get(),self.__Customer_Password_entry.get()) == True: #SXGE
+                encrypt(self.__Customer_Password_entry.get()) #SXGE 
+                access = True #SXGE
+            else:
+                print("Username is not found in database") #SXGE  
         self.__Customer_Username_entry.delete(0, 'end')
         self.__Customer_Password_entry.delete(0, 'end')
         self.__Customer_Login_frame.grid_forget()
@@ -55,8 +60,16 @@ class Customer:
         #AND self.__Customer_Password_entry.get()
         #If valid, encrypt the password and add/assiciate with CID
         #If Valid, move to customer page
-        self.__Customer_Password_entry.delete(0, 'end')
         #If not valid, have them try again, print relevant error message
+        self.__Customer_Username_entry.get() #SXGE
+        self.__Customer_Password_entry.get() #SXGE
+        if self.__SQLCommands.checkAvailableCid(self.__Customer_Username_entry.get()): #SXGE
+            encrypt(self.__Customer_Password_entry.get()) #SXGE 
+            self.Login_as_Customer_page() #SXGE
+            self.__Customer_Password_entry.delete(0, 'end') #SXGE
+        else:
+            print("Username is already taken") #SXGE
+            self.Customer_Register_button() #SXGE
         self.__Customer_Check_Register_button.grid_forget()
         self.__Customer_Login_frame.grid_forget()
         #Replace VVV with customer work page 
