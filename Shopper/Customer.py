@@ -1,4 +1,6 @@
 from tkinter import *
+from .SQL_Commands import *
+from .DB_Make import encrypt
 
 class Customer:
     def __init__(self, master, conn, cursor):
