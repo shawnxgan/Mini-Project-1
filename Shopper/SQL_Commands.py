@@ -248,7 +248,37 @@ class SQLCommands:
     # Agent interface
     def setupDelivery(self, addOrdersInfo):
         # addOrdersInfo: [(oid, pickUpTime, dropOffTime,),...]
-        print("HERE")
+        # time is in SQL format ("+8 day".. etc)
+
+        #Get order number, oid is int so we can +1 for this order
+        oid = 0;
+        try:
+            maxTrackingNo = self.__curs.execute("""SELECT MAX(trackingno) FROM deliveries;""")
+            maxTrackingNo = maxTrackingNo.fetchone()[0]
+            maxTrackingNo += 1;
+        except:
+            print("Failed to get last trackignNo")
+            return False;
+        
+        try:
+            self.__curs.executemany("""INSERT INTO deliveries VALUES(?, date(?), date(?);""", addOrdersInfo)
+            return True;
+        except:
+            return False;
+    
+    def removeOrderFromDelivery(self, trackingNo, oid):
+        # Removes order from a delivery
+        # Returns bool indicating success
+
+        query_String = """DELETE FROM deliveries\
+        WHERE deliveries.trackingno = ? AND deliveries.oid = ?;"""
+
+        try:
+            self.__curs.execute(query_String, (trackingNo, oid,))
+            return True;
+        except:
+            print("Failed to delete order from deliveries")
+            return False;
     
     def listDeliveryItems(self, trackingNo):
         # List items from a delivery
@@ -274,7 +304,7 @@ class SQLCommands:
         # Returns bool, whether update was successful or not 
 
         query_String = """UPDATE deliveries \
-        SET deliveries.pickUpTime = ?, deliveries.dropOffTime = ? \
+        SET deliveries.pickUpTime = date(?), deliveries.dropOffTime = date(?) \
         WHERE deliveries.trackingNo == ? AND deliveries.order == ?"""
 
         try:
