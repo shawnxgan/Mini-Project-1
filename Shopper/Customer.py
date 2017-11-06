@@ -17,7 +17,7 @@ class Customer:
         self.__Customer_Check_Register_button = Button(self.__Customer_Login_frame, text="Check if valid and sign up", 
                                                                             command=self.Customer_Check_Register_button)
     def Login_as_Customer_page(self):
-        print("Customer_Button")
+        #~ print("Customer_Button")
         self.__Customer_Login_frame.grid(padx=10, pady=10)
         
         self.__Customer_Username.grid(row=1, column=1, padx=10, pady=10, sticky=E)
@@ -30,7 +30,7 @@ class Customer:
         self.__Customer_Register_button.grid(row=3, column=2, padx=10, pady=10, sticky=E)
         
     def Customer_Sign_in_button(self):
-        print("Trying to sign in...")
+        #~ print("Trying to sign in...")
         #Put database lookup code here, as well as encryption
         #self.__Customer_Password_entry.get()
         self.__Customer_Username_entry.delete(0, 'end')
@@ -41,7 +41,7 @@ class Customer:
         self.Login_Choose()
         
     def Customer_Register_button(self):
-        print("Time to register!!!")
+        #~ print("Time to register!!!")
         #Remakes the customer login page so that they can try to register
         self.__Customer_Login_button.grid_forget()
         self.__Customer_Register_button.grid_forget()
@@ -49,7 +49,7 @@ class Customer:
         self.__Customer_Check_Register_button.grid(row=3, column=1, columnspan=2, padx=10, pady=10)
     
     def Customer_Check_Register_button(self):
-        print("Checking if that name is available")
+        #~ print("Checking if that name is available")
         #Check database for alrady existing CID
         #Use self.__Customer_Username_entry.get()
         #AND self.__Customer_Password_entry.get()

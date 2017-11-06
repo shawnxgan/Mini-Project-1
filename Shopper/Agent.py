@@ -14,7 +14,7 @@ class Agent:
         self.__Agent_Password_entry = Entry(self.__Agent_Login_frame, show="*")
         self.__Agent_Login_button = Button(self.__Agent_Login_frame, text="Sign in", command=self.Agent_Sign_in_button)
         
-        #Agent's work select page-frame
+        #Agent's work select page frame
         self.__Agent_Work_frame = Frame(self.__root, height=720, width=960)
         self.__Agent_Setup_Delivery_button = Button(self.__Agent_Work_frame, text="Setup Delivery",
                                                                     command=self.Agent_Setup_Delivery)
@@ -23,7 +23,7 @@ class Agent:
         self.__Agent_Add_Stock_button = Button(self.__Agent_Work_frame, text="Add Stock",
                                                                         command=self.Agent_Add_Stock)
         
-        #Agent's Add Stock page-frame
+        #Agent's Add Stock page frame
         self.__Agent_Add_Stock_frame = Frame(self.__root, height=720, width=960)
         self.__Agent_StoreID_label = Label(self.__Agent_Add_Stock_frame, text="Store ID")
         self.__Agent_StoreID_entry = Entry(self.__Agent_Add_Stock_frame)
@@ -64,7 +64,7 @@ class Agent:
 
 
     def Login_as_Agent_page(self):
-        print("Agent_Button")
+        #~ print("Agent_Button")
         self.__Agent_Login_frame.grid(padx=10, pady=10)
         self.__Agent_Username.grid(row=1, column=1, padx=10, pady=10, sticky=E)
         self.__Agent_Password.grid(row=2, column=1, padx=10, pady=10, sticky=E)
@@ -73,7 +73,7 @@ class Agent:
         self.__Agent_Login_button.grid(row=3, column=1, columnspan=2, padx=10, pady=10)
 
     def Agent_Sign_in_button(self):
-        print("Trying to sign in...")
+        #~ print("Trying to sign in...")
         #Put database lookup code here, as well as encryption
         #self.__Agent_Password_entry.get()
         #self.__Agent_Username_entry.get()
@@ -133,7 +133,7 @@ class Agent:
         self.Agent_Work_page()
         
     def Agent_Add_Stock(self):
-        print("todo1")
+        #~ print("todo1")
         self.__Agent_Work_frame.grid_forget()
         self.__Agent_Add_Stock_frame.grid(padx=10, pady=10)
         self.__Agent_StoreID_label.grid(row=0, column=0, padx=25, pady=10)
@@ -150,14 +150,14 @@ class Agent:
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     def Agent_Update_Delivery(self):
-        print("todo2")
+        #~ print("todo2")
         self.__Agent_Work_frame.grid_forget()
         self.Login_Choose()
         
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     def Agent_Setup_Delivery(self):
-        print("todo3")
+        #~ print("todo3")
         #Find ALL orders that are not in any delivery
         #Pull usefull data as strings, then fill the listbox below
         self.__Agent_Work_frame.grid_forget()

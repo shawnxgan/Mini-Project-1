@@ -26,12 +26,12 @@ class Shopper:
         self.__customer_button.grid(row=1, column=3, padx=50, pady=10)
         
     def Login_as_Agent(self):
-        print("Agent_Button")
+        #~ print("Agent_Button")
         self.__Login_frame.grid_forget()
         self.__Agent.Login_as_Agent_page()
 
     def Login_as_Customer(self):
-        print("Customer_Button")
+        #~ print("Customer_Button")
         self.__Login_frame.grid_forget()
         self.__Customer.Login_as_Customer_page()
         
