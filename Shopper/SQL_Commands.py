@@ -38,7 +38,7 @@ class SQLCommands:
     def registerCustomer(self, cid, name, address, pwd):
         # Returns a boolean indicating success of registration
         try:
-            self.__curs.execute(""""INSERT INTO customers(?,?,?,hash(?));""", (cid, name, address, pwd,))
+            self.__curs.execute("""INSERT INTO customers VALUES(?,?,?,hash(?));""", (cid, name, address, pwd,))
             return True;
         except:
             False;  
@@ -190,21 +190,124 @@ class SQLCommands:
             return False;
             
         return True;
-            
+
+    def listOrders(self, cid):
+        # List all orders made by the customer
+        # Returns [(oid, odate, numberOfProducts, totalPrice, orderDate,), ...]
+
+        query_String = """select orders.oid as oid, orders.odate as odate, count(DISTINCT olines.pid) as numberOfProducts, SUM(olines.uprice) as totalPrice, orders.odate as orderDate\
+        FROM orders, olines\
+        WHERE orders.oid == olines.oid AND orders.cid == ?\
+        group by orders.oid\
+        order by orders.odate DESC;"""
+
+        results = None;
+        try:
+            results = self.__conn.execute(query_String, (cid,))
+            results = results.fetchall()
+            return results
+        except:
+            print("Failed to fetch queries")
+            return None;
+
+    def getOrderInfo(self, oid):
+        # Gets required information about a specific order
+        # Return order: [(trackingNo, oid, pickUpTime, dropOffTime, address,), ...]
+
+        query_String = """select deliveries.trackingno as trackingNo, orders.oid as oid, deliveries.pickUpTime as pickUpTime, deliveries.dropOffTime as dropOffTime, orders.address as address\
+        FROM orders, deliveries\
+        where orders.oid == ? and orders.oid == deliveries.oid;"""
+
+        result = None;
+        try:
+            result = self.__curs.execute(query_String, (oid,))
+            result = result.fetchall();
+            return result;
+        except:
+            print("Error in getting order info")
+            return None;
         
-        
-        # Generate output
+    def listOrderItems(self, oid):
+        # Returns items listing in an order
+        # Return order: [(sid, storeName, pid, name, qty, unit, uprice,), ...]
 
-        
-from DB_Make import *
-conn = sqlite3.connect('../demo.db')
-curs = conn.cursor()
-conn.create_function("hash", 1, encrypt)
-sqc = SQLCommands(conn, curs);
+        query_String = """select olines.sid as sid, stores.name as storeName, olines.pid as pid, products.name as name, olines.qty as qty, products.unit as unit, olines.uprice as uprice\
+        from olines, stores, products\
+        where olines.oid == ? and olines.sid == stores.sid and olines.pid == products.pid;"""
 
-print(sqc.registerCustomer("1234", "Devon", "5678", "PWD"))
+        result = None;
+        try:
+            result = self.__curs.execute(query_String, (oid,))
+            result = result.fetchall()
+            return result;
+        except:
+            print("Error in fetching item listing");
+            return None;
 
+    
+    # Agent interface
+    def setupDelivery(self, addOrdersInfo):
+        # addOrdersInfo: [(oid, pickUpTime, dropOffTime,),...]
+        print("HERE")
+    
+    def listDeliveryItems(self, trackingNo):
+        # List items from a delivery
+        # Returns [(oid, customer, odate, address, pickUpTime, dropOffTime,),...]
 
+        query_String = """select orders.oid as oid, customers.name as customer, orders.odate as odate, orders.address as address, deliveries.pickUpTime as pickUpTime, deliveries.dropOffTime as dropOffTime\
+        FROM deliveries, orders, customers\
+        WHERE deliveries.trackingno == ? and deliveries.oid == orders.oid and customers.cid == orders.cid;"""
+
+        result = None;
+
+        try:
+            result = self.__curs.execute(query_String, (trackingNo,))
+            result = result.fetchall()
+            return result;
+        except:
+            print("Failed to list delivery items")
+            return False;
+    
+    def updateOrder(self, trackingNo, order, pickUpTime, dropOffTime):
+        # Updates an order's pickUp/dropOff Time
+        # pickup time and dropOffTime are sql like dates: "+7 day", "+2 day" .. etc
+        # Returns bool, whether update was successful or not 
+
+        query_String = """UPDATE deliveries \
+        SET deliveries.pickUpTime = ?, deliveries.dropOffTime = ? \
+        WHERE deliveries.trackingNo == ? AND deliveries.order == ?"""
+
+        try:
+            self.__curs.execute(query_String, (pickUpTime, dropOffTime, trackingNo, order,))
+            return True;
+        except:
+            return False;
+
+    def addToStock(self, sid, pid, qty, uprice):
+        query_String = """INSERT INTO carries VALUES(?, ?, ?, ?)"""
+
+        try:
+            self.__curs.execute(query_String, (sid, pid, qty, uprice,));
+            return True;
+        except:
+            return False;
+
+# from DB_Make import *
+# conn = sqlite3.connect('../test/demo.db')
+# curs = conn.cursor()
+# conn.create_function("hash", 1, encrypt)
+# sqc = SQLCommands(conn, curs);
+
+# # Update order
+# sqc.updateOrder(9, 8, "now")
+
+# print(sqc.getOrderInfo(10))
+# print(sqc.listOrderItems(7))
+
+# print(sqc.registerCustomer("12345", "DevonThe tester", "5678", "PWD"))
+
+# conn.commit()
+# conn.close()
 # # Test login
 # print(sqc.customerLogin('c1','davood'))
 
