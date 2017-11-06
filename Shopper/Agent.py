@@ -1,4 +1,6 @@
 from tkinter import *
+from .SQL_Commands import *
+from .DB_Make import encrypt
 
 class Agent:
     def __init__(self, master, conn, cursor):
@@ -75,12 +77,20 @@ class Agent:
     def Agent_Sign_in_button(self):
         #~ print("Trying to sign in...")
         #Put database lookup code here, as well as encryption
-        #self.__Agent_Password_entry.get()
-        #self.__Agent_Username_entry.get()
+        self.__Agent_Password_entry.get()
+        self.__Agent_Username_entry.get()
         #Check database for AID
         #If valid, compare PW against AID.PW in database
         #If valid, move to Agent_Work_page
         #If any are invalid, show relevant error message
+        access = False #SXGE
+        while access == False: #SXGE
+            if self.__SQLCommands.agentLogin(self.__Agent_Password_entry.get(), self.__Agent_Username_entry.get()) = True: #SXGE
+                encrypt(self.__Agent_Password_entry.get()) #SXGE
+                access = True #SXGE
+            else: #SXGE 
+                print("Invalid Login Credentials") #SXGE
+                access = False #SXGE
         
         self.__Agent_Username_entry.delete(0,'end')
         self.__Agent_Password_entry.delete(0,'end')
@@ -115,10 +125,10 @@ class Agent:
             #here is the maybe-price-adjustment
         else:
             self.Agent_Stock_Update_Fail()
-            
-        #If the item cant be found (store/product dont exist)
-        #then use Stock_Update_Fail
-        #If it exists, use Stock_Update_Succeed
+        if self.__SQLCommands.getProductInfo(self.__Agent_ProductID_entry.get()) == None: #If the item cant be found (store/product dont exist) SXGE
+            self.Agent_Stock_Update_Fail() #then use Stock_Update_Fail SXGE
+        else:
+            self.Agent_Stock_Update_Succeed() #If it exists, use Stock_Update_Succeed SXGE
         
         
     def Agent_Stock_Update_Succeed(self):
@@ -158,8 +168,8 @@ class Agent:
     
     def Agent_Setup_Delivery(self):
         #~ print("todo3")
-        #Find ALL orders that are not in any delivery
-        #Pull usefull data as strings, then fill the listbox below
+        self.__SQLCommands.listOrderItems() #I believe these are the useful data? not sure how to get the oid SXGE
+        self.__SQLCommands.setupDelivery() #SXGE I'm not quite sure how to pass or set up passordersinfo into here SXGE
         self.__Agent_Work_frame.grid_forget()
         self.__Agent_Set_Delivery_frame.grid(padx=10, pady=10)
         self.__Agent_Set_Delivery_listbox.grid(row=0, column=0, pady=10, sticky=N+S)
@@ -174,6 +184,7 @@ class Agent:
         delivery_selections = self.__Agent_Set_Delivery_listbox.curselection()
         #Delivery_selections is either a list of strings, or a list of int, use it to put
         #data into the listbox based on which orders are in 'THIS' delivery
+        self.__SQLCommands.listOrderItems() #not sure how to get the oid SXGE
         #Also need to generate Delivery ID
         self.__Agent_Set_Delivery_frame.grid_forget()
         self.__Agent_Set_Pickup_Time_frame.grid(padx=10, pady=10)
